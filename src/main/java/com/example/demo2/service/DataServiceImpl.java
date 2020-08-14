@@ -16,6 +16,9 @@ public class DataServiceImpl implements DataService {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
+    @Autowired
+    private CacheService cacheService;
+
     @Override
     public String getData(Long id) {
         Person person = new Person();
@@ -23,7 +26,11 @@ public class DataServiceImpl implements DataService {
 
         ValueOperations<String, Object> valueOper = redisTemplate.opsForValue();
         valueOper.set("b", person);
-        Object value = (Object) valueOper.get("b");
+        Person value = (Person) valueOper.get("b");
+
+        person = cacheService.getPerson("ccc");
+
+        person = cacheService.getPerson("ccc");
 
         ValueOperations valueOper2 = stringRedisTemplate.opsForValue();
         valueOper2.set("c", "cccc");
